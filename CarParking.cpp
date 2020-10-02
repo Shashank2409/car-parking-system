@@ -1,4 +1,5 @@
 #include<bits/stdc++.h>
+#include<string>
 using namespace std;
 
 string input_file_path = "input.txt" , output_file_path = "output.txt";
@@ -13,6 +14,15 @@ class Car{
             this->driver_age = driver_age;
             this->parking_slot_no = parking_slot_no;
         }
+        int get_slot_no(){
+        	return this->parking_slot_no;
+		}
+		string get_car_no(){
+			return this->car_no; 
+		}
+		int get_driver_age(){
+			return this->driver_age;
+		}
         void set_car_no(string car_no){
             this->car_no = car_no;
         }
@@ -24,21 +34,29 @@ class Car{
         }
 };
 
-unordered_map<string , Car>regNo_Car;
-unordered_map<int , unordered_set<Car>>driverAge_Car;
-unordered_map<int , Car>slotNo_Car; 
+map<string , Car>regNo_Car;
+map<int , vector<Car> >driverAge_Car;
+map<int , Car>slotNo_Car; 
 
 class CarParking{
     private:
         int no_of_slots;
-        priority_queue<int , vector<int> , greater<int>>available_slots;
+        priority_queue<int , vector<int> , greater<int> >available_slots;
         vector<bool>alloted_slots;
     public:
         CarParking(){
             this->no_of_slots = 0;
         }
+        
+        string int_to_string(int convertFrom){
+        	ostringstream str1; 
+		    str1 << convertFrom; 
+		    string convertTo = str1.str();
+        	return convertTo;
+		}
+        
         string set_slots(int no_of_slots){
-            string response , no_of_slots_string;
+            string response , no_of_slots_string = int_to_string(no_of_slots);
 
             this->no_of_slots = no_of_slots;
             alloted_slots.push_back(false);
@@ -46,16 +64,14 @@ class CarParking{
                 available_slots.push(slot);
                 alloted_slots.push_back(false);
             }
-
-            stringstream int_to_string(no_of_slots);
-            int_to_string>>no_of_slots_string;
+			
             response = "Created parking of " + no_of_slots_string + " slots\n";
 
             return response;            
         }
         string park(string car_no , int driver_age){
             string response;
-            if(priority_queue.size() == 0){
+            if(available_slots.size() == 0){
                 response = "No parking slot available\n";
             }
             else{
@@ -63,40 +79,44 @@ class CarParking{
                 available_slots.pop();
                 alloted_slots[alloted_slot_no] = true;
 
-                Car car = new Car(car_no , driver_age , alloted_slot_no);
+                Car car(car_no , driver_age , alloted_slot_no);
                 regNo_Car.insert({car_no , car});
-                driverAge_Car[driver_age].insert(car);
+                driverAge_Car[driver_age].push_back(car);
                 slotNo_Car.insert({alloted_slot_no , car});
 
-                stringstream string_to_int(car_no);
-                string car_no_string;
-                string_to_int>>car_no_string;
-                response = "Car with vehicle registration number \"" + car_no + "\" has been parked at slot number " + car_no_string + "\n";
+                string slot_no_string = int_to_string(alloted_slot_no);
+                response = "Car with vehicle registration number \"" + car_no + "\" has been parked at slot number " + slot_no_string + "\n";
             }
             return response;
         }
 
         vector<int> slot_no_for_driver_age(int driver_age){
             vector<int>ages;
-            for(auto it = driverAge_Car.begin(); it != driverAge_Car.end(); it++){
-                ages.push_back((it->second)->parking_slot_no);
+            for(int i = 0; i < driverAge_Car[driver_age].size(); i++){
+                ages.push_back(driverAge_Car[driver_age][i].get_slot_no());
             }
             return ages;
         }
 
         int slot_no_for_car_with_no(string car_no){
-            auto it = slotNo_Car.find(car_no);
-            if(it == slotNo_Car.end()){
+            map<string , Car>::iterator it = regNo_Car.find(car_no);
+            if(it == regNo_Car.end()){
                 return -1;
             }
-            int slot_no_for_car = it->slot_no;
+            int slot_no_for_car = (it->second).get_slot_no();
             return slot_no_for_car;
         }
 
         vector<string> vehicle_no_for_car_with_driver_age(int driver_age){
             vector<string>vehicle_nos;
-            for(auto it = driverAge_Car.begin(); it != driverAge_Car.end(); it++){
-                vehicle_nos.push_back((it->second)->car_no);
+            map<int , vector<Car> >::iterator it = driverAge_Car.find(driver_age);
+            if(it == driverAge_Car.end()){
+            	return vehicle_nos;
+			}
+			
+            vector<Car> cars = it->second;
+            for(int i = 0; i<  cars.size(); i++){
+                vehicle_nos.push_back(cars[i].get_car_no());
             }
             return vehicle_nos;
         }
@@ -108,17 +128,30 @@ class CarParking{
             }
             else{
                 alloted_slots[slot_no] = false;
-                Car car = slotNo_Car[slot_no];
+                map<int , Car>::iterator it_car = slotNo_Car.find(slot_no);
+                
+                Car car = it_car->second;
+                int driver_age = car.get_driver_age();
                 slotNo_Car.erase(slot_no);
-                regNo_Car.erase(car->car_no);
-                driverAge_Car[car->driver_age].erase(car);
+                regNo_Car.erase(car.get_car_no());
+                
+                map<int , vector<Car> >::iterator it_map = driverAge_Car.find(driver_age);
+//                vector<Car>::iterator it = find((it_map->second).begin() , (it_map->second).end() , car);
+				vector<Car>::iterator it_vector = (it_map->second).begin();
+                for(; it_vector != (it_map->second).end(); it_vector++){
+                	if((*it_vector).get_car_no() == car.get_car_no()){
+                		(it_map->second).erase(it_vector);
+                		break;
+					}
+				}
+                
+//                driverAge_Car[car.get_driver_age()].erase(it);
                 available_slots.push(slot_no);
 
-                stringstream age_to_string(driver_age) , slotNo_to_string(slot_no);
-                string slot_no_string , driver_age_string;
-                slotNo_to_string>>slot_no_string;
-                age_to_string>>driver_age_string;
-                response = "Slot number " + slot_no_string + " vacated, the car with vehicle registration number \"" + car->car_no +"\"left the space, the driver of the car was of age " + driver_age_string + "\n";
+                string slot_no_string = int_to_string(slot_no), driver_age_string = int_to_string(driver_age), car_no_string = car.get_car_no();
+                
+                response = "Slot number " + slot_no_string + " vacated, the car with vehicle registration number \"" 
+                + car_no_string +"\" left the space, the driver of the car was of age " + driver_age_string + "\n";
             }
             return response;
         }
@@ -133,7 +166,7 @@ int main(){
     CarParking parking_area;
 
     while(getline(in , input_line)){
-        cout<<input_line<<endl;
+//        cout<<input_line<<endl;
         stringstream words(input_line);
         string command;
         words>>command;
@@ -141,21 +174,18 @@ int main(){
         if(command == "Create_parking_lot"){
             int no_of_slots;
             words>>no_of_slots;
-            parking_area.set_slots(no_of_slots);
+            string response = parking_area.set_slots(no_of_slots);
+            cout<<response;
         }
         else if(command == "Park"){
             string car_no , useless_string , response;
             int driver_age;
             words>>car_no>>useless_string>>driver_age;
-            if(parking_area != NULL){
-                response = parking_area.park(car_no , driver_age);
-            }
-            else{
-                response = "We do not own a parking area yet\n";
-            }
+            response = parking_area.park(car_no , driver_age);
+            
             cout<<response;
         }
-        else if(command == "Slot_numbers_for_driver_age"){
+        else if(command == "Slot_numbers_for_driver_of_age"){
             int driver_age;
             words>>driver_age;
             vector<int>ages = parking_area.slot_no_for_driver_age(driver_age);
@@ -169,7 +199,7 @@ int main(){
             words>>car_no;
             int slot_no_for_car = parking_area.slot_no_for_car_with_no(car_no);
             if(slot_no_for_car == -1){
-                cout<<"No such car exists\n";
+                cout<<"null\n";
             }
             else{
                 cout<<slot_no_for_car<<"\n";
@@ -184,10 +214,13 @@ int main(){
         else if("Vehicle_registration_number_for_driver_of_age"){
             int driver_age;
             words>>driver_age;
-            string vehicle_no = parking_area.vehicle_no_for_car_with_driver_age(driver_age);
+            vector<string> vehicle_no = parking_area.vehicle_no_for_car_with_driver_age(driver_age);
             for(int vehicle = 0; vehicle < vehicle_no.size(); vehicle++){
-                cout<<ages[vehicle]<<(vehicle == (vehicle_no.size() - 1)?"":",");
+                cout<<vehicle_no[vehicle]<<(vehicle == (vehicle_no.size() - 1)?"":",");
             }
+            if(vehicle_no.size() == 0){
+            	cout<<"null";
+			}
             cout<<"\n";
         }
         else{
