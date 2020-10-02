@@ -79,6 +79,10 @@ class CarParking{
 		    string convertTo = str1.str();
         	return convertTo;
 		}
+
+        int get_slots(){
+            return this->no_of_slots;
+        }
         
         /*Method for initializing the Car Parking Area with a given number of slots*/
         string set_slots(int no_of_slots){
@@ -99,6 +103,7 @@ class CarParking{
         /*Method for parking a car in the car parking area at the nearest slot from the entry*/
         string park(string car_no , int driver_age){
             string response;
+            
             if(available_slots.size() == 0){
                 response = "No parking slot available\n";
             }
@@ -212,13 +217,20 @@ int main(){
 
         /*Block for parking a car*/
         else if(command == "Park"){
+            
             string car_no , useless_string , response;
             int driver_age;
             words >> car_no >> useless_string >> driver_age;
-            response = parking_area.park(car_no , driver_age);
-            
-            cout << response;
-            out << response;
+            if(parking_area.get_slots() == 0){
+                cout<<"Parking area not available\n";
+                out<<"Parking area not available\n";
+            }
+            else{
+                response = parking_area.park(car_no , driver_age);
+                
+                cout << response;
+                out << response;
+            }
         }
 
         /*Block for getting the slot numbers where cars of drivers with the given age are parked*/

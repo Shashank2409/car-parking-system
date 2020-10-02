@@ -1,3 +1,4 @@
+Park KA-01-HH-1234 driver_age 21
 Create_parking_lot 6
 Park KA-01-HH-1234 driver_age 21
 Park PB-01-HH-1234 driver_age 21
