@@ -1,5 +1,4 @@
 #include<bits/stdc++.h>
-#include<string>
 using namespace std;
 
 /*Path for the input and output files*/
@@ -37,7 +36,7 @@ class Car{
 		void set_car_no(string car_no){
             this->car_no = car_no;
         }
-        
+    
 		int get_driver_age(){
 			return this->driver_age;
 		}
@@ -182,7 +181,7 @@ class CarParking{
 
 int main(){
     ifstream in(input_file_path.c_str());
-    ofstream output(output_file_path.c_str()); 
+    ofstream out(output_file_path.c_str()); 
 
     string input_line;
     CarParking parking_area;
@@ -198,6 +197,7 @@ int main(){
             words >> no_of_slots;
             string response = parking_area.set_slots(no_of_slots);
             cout << response;
+            out << response;
         }
 
         /*Block for parking a car*/
@@ -208,6 +208,7 @@ int main(){
             response = parking_area.park(car_no , driver_age);
             
             cout << response;
+            out << response;
         }
 
         /*Block for getting the slot numbers where cars of drivers with the given age are parked*/
@@ -217,8 +218,10 @@ int main(){
             vector<int>ages = parking_area.slot_no_for_driver_age(driver_age);
             for(int driver = 0; driver < ages.size(); driver++){
                 cout << ages[driver] << (driver == (ages.size() - 1)?"":",");
+				out << ages[driver] << (driver == (ages.size() - 1)?"":",");
             }
             cout << "\n";
+            out << "\n";
         }
 
         /*Block for getting the slot number of the car with the given registration_number*/
@@ -228,9 +231,11 @@ int main(){
             int slot_no_for_car = parking_area.slot_no_for_car_with_no(car_no);
             if(slot_no_for_car == -1){
                 cout << "null\n";
+                out << "null\n";
             }
             else{
                 cout << slot_no_for_car << "\n";
+                out << slot_no_for_car << "\n";
             }
         }
 
@@ -240,6 +245,7 @@ int main(){
             words >> slot_no;
             string response = parking_area.leave(slot_no);
             cout << response;
+            out << response;
         }
 
         /*Block for getting the registration_no of cars with drivers of the given age*/
@@ -249,16 +255,20 @@ int main(){
             vector<string> vehicle_no = parking_area.vehicle_no_for_car_with_driver_age(driver_age);
             for(int vehicle = 0; vehicle < vehicle_no.size(); vehicle++){
                 cout << vehicle_no[vehicle] << (vehicle == (vehicle_no.size() - 1)?"":",");
+                out << vehicle_no[vehicle] << (vehicle == (vehicle_no.size() - 1)?"":",");
             }
             if(vehicle_no.size() == 0){
             	cout << "null";
+            	out << "null";
 			}
             cout << "\n";
+            out << "\n";
         }
 
         /*Block when any invalid command is called*/
         else{
             cout << "Invalid Command\n";
+            out << "Invalid Command\n";
         }
     }
 }
