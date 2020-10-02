@@ -33,4 +33,3 @@ Integrated Development environment (IDE)
         7. In Dev-C++, go to Execute and click Compile & Run option to run the cpp file.
         8. The output will be displayed on the console. Also, the output will be saved in the "output.txt" file present in the "car-parking-system" folder.
 
-NOTE :- The "CarParking.cpp" file uses different Standard Template Libraries(STLs) like Priority Queue, Map and Vector. So prefer using the latest compiler version to avoid compilation errors.
