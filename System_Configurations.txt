@@ -33,3 +33,8 @@ Integrated Development environment (IDE)
         7. In Dev-C++, go to Execute and click Compile & Run option to run the cpp file.
         8. The output will be displayed on the console. Also, the output will be saved in the "output.txt" file present in the "car-parking-system" folder.
 
+I use GCC compiler in Windows 10 and any of the below commands can be used for executing a C++ code:-
+    g++ filename.cpp
+    g++ filename.cpp -std=c++11
+    g++ filename.cpp -std=c++14
+GCC version - 5.1.0
