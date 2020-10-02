@@ -75,6 +75,7 @@ class CarParking{
             }
             return response;
         }
+
         vector<int> slot_no_for_driver_age(int driver_age){
             vector<int>ages;
             for(auto it = driverAge_Car.begin(); it != driverAge_Car.end(); it++){
@@ -83,6 +84,22 @@ class CarParking{
             return ages;
         }
 
+        int slot_no_for_car_with_no(string car_no){
+            auto it = slotNo_Car.find(car_no);
+            if(it == slotNo_Car.end()){
+                return -1;
+            }
+            int slot_no_for_car = it->slot_no;
+            return slot_no_for_car;
+        }
+
+        vector<string> vehicle_no_for_car_with_driver_age(int driver_age){
+            vector<string>vehicle_nos;
+            for(auto it = driverAge_Car.begin(); it != driverAge_Car.end(); it++){
+                vehicle_nos.push_back((it->second)->car_no);
+            }
+            return vehicle_nos;
+        }
 
 };
 
@@ -123,21 +140,33 @@ int main(){
             for(int driver = 0; driver < ages.size(); driver++){
                 cout<<ages[driver]<<(driver == (ages.size() - 1)?"":",");
             }
+            cout<<"\n";
         }
         else if(command == "Slot_number_for_car_with_number"){
             string car_no;
             words>>car_no;
-            
+            int slot_no_for_car = parking_area.slot_no_for_car_with_no(car_no);
+            if(slot_no_for_car == -1){
+                cout<<"No such car exists\n";
+            }
+            else{
+                cout<<slot_no_for_car<<"\n";
+            }
         }
         else if(command == "Leave"){
             int slot_no;
             words>>slot_no;
+            
 
         }
         else if("Vehicle_registration_number_for_driver_of_age"){
             int driver_age;
             words>>driver_age;
-
+            string vehicle_no = parking_area.vehicle_no_for_car_with_driver_age(driver_age);
+            for(int vehicle = 0; vehicle < vehicle_no.size(); vehicle++){
+                cout<<ages[vehicle]<<(vehicle == (vehicle_no.size() - 1)?"":",");
+            }
+            cout<<"\n";
         }
         else{
             cout<<"Invalid Command\n";
