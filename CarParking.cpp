@@ -190,62 +190,75 @@ int main(){
     while(getline(in , input_line)){
         stringstream words(input_line);
         string command;
-        words>>command;
+        words >> command;
         
+        /*Block for creating a new parking lot*/
         if(command == "Create_parking_lot"){
             int no_of_slots;
-            words>>no_of_slots;
+            words >> no_of_slots;
             string response = parking_area.set_slots(no_of_slots);
-            cout<<response;
+            cout << response;
         }
+
+        /*Block for parking a car*/
         else if(command == "Park"){
             string car_no , useless_string , response;
             int driver_age;
-            words>>car_no>>useless_string>>driver_age;
+            words >> car_no >> useless_string >> driver_age;
             response = parking_area.park(car_no , driver_age);
             
-            cout<<response;
+            cout << response;
         }
+
+        /*Block for getting the slot numbers where cars of drivers with the given age are parked*/
         else if(command == "Slot_numbers_for_driver_of_age"){
             int driver_age;
-            words>>driver_age;
+            words >> driver_age;
             vector<int>ages = parking_area.slot_no_for_driver_age(driver_age);
             for(int driver = 0; driver < ages.size(); driver++){
-                cout<<ages[driver]<<(driver == (ages.size() - 1)?"":",");
+                cout << ages[driver] << (driver == (ages.size() - 1)?"":",");
             }
-            cout<<"\n";
+            cout << "\n";
         }
+
+        /*Block for getting the slot number of the car with the given registration_number*/
         else if(command == "Slot_number_for_car_with_number"){
             string car_no;
-            words>>car_no;
+            words >> car_no;
             int slot_no_for_car = parking_area.slot_no_for_car_with_no(car_no);
             if(slot_no_for_car == -1){
-                cout<<"null\n";
+                cout << "null\n";
             }
             else{
-                cout<<slot_no_for_car<<"\n";
+                cout << slot_no_for_car << "\n";
             }
         }
+
+        /*Block called when a car is leaving*/
         else if(command == "Leave"){
             int slot_no;
-            words>>slot_no;
+            words >> slot_no;
             string response = parking_area.leave(slot_no);
-            cout<<response;
+            cout << response;
         }
+
+        /*Block for getting the registration_no of cars with drivers of the given age*/
         else if("Vehicle_registration_number_for_driver_of_age"){
             int driver_age;
-            words>>driver_age;
+            words >> driver_age;
             vector<string> vehicle_no = parking_area.vehicle_no_for_car_with_driver_age(driver_age);
             for(int vehicle = 0; vehicle < vehicle_no.size(); vehicle++){
-                cout<<vehicle_no[vehicle]<<(vehicle == (vehicle_no.size() - 1)?"":",");
+                cout << vehicle_no[vehicle] << (vehicle == (vehicle_no.size() - 1)?"":",");
             }
             if(vehicle_no.size() == 0){
-            	cout<<"null";
+            	cout << "null";
 			}
-            cout<<"\n";
+            cout << "\n";
         }
+
+        /*Block when any invalid command is called*/
         else{
-            cout<<"Invalid Command\n";
+            cout << "Invalid Command\n";
         }
     }
 }
