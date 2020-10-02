@@ -2,6 +2,7 @@
 #include<string>
 using namespace std;
 
+/*Path for the input and output files*/
 string input_file_path = "input.txt" , output_file_path = "output.txt";
 
 class Car{
@@ -10,33 +11,46 @@ class Car{
         int driver_age , parking_slot_no;
         
     public:
+    	/*Constructors for the class Car*/
+    	Car(){
+    		this->car_no = "";
+    		this->driver_age = -1;
+    		this->parking_slot_no = -1;
+		}
         Car(string car_no , int driver_age , int parking_slot_no){
             this->car_no = car_no;
             this->driver_age = driver_age;
             this->parking_slot_no = parking_slot_no;
         }
+        
+        /*Getters and Setters for the class Car*/
         int get_slot_no(){
         	return this->parking_slot_no;
 		}
+		void set_slot_no(int slot_no){
+            this->parking_slot_no = slot_no;
+        }
+        
 		string get_car_no(){
 			return this->car_no; 
 		}
+		void set_car_no(string car_no){
+            this->car_no = car_no;
+        }
+        
 		int get_driver_age(){
 			return this->driver_age;
 		}
-        void set_car_no(string car_no){
-            this->car_no = car_no;
-        }
         void set_driver_age(int driver_age){
             this->driver_age = driver_age;
         }
-        void set_slot_no(int slot_no){
-            this->parking_slot_no = slot_no;
-        }
 };
 
+/*Map with car_registration_no as key and the Car class object as value*/
 map<string , Car>regNo_Car;
+/*Map with driver_age as key and vector of Car class objects with age == driver_age as value*/
 map<int , vector<Car> >driverAge_Car;
+/*Map with slot_no as key and the Car class object as value*/
 map<int , Car>slotNo_Car; 
 
 class CarParking{
@@ -49,6 +63,7 @@ class CarParking{
             this->no_of_slots = 0;
         }
         
+        /*Method for converting an integer to string*/
         string int_to_string(int convertFrom){
         	ostringstream str1; 
 		    str1 << convertFrom; 
@@ -56,6 +71,7 @@ class CarParking{
         	return convertTo;
 		}
         
+        /*Method for initializing the Car Parking Area with a given number of slots*/
         string set_slots(int no_of_slots){
             string response , no_of_slots_string = int_to_string(no_of_slots);
 
@@ -70,6 +86,8 @@ class CarParking{
 
             return response;            
         }
+        
+        /*Method for parking a car in the car parking area at the nearest slot from the entry*/
         string park(string car_no , int driver_age){
             string response;
             if(available_slots.size() == 0){
@@ -91,6 +109,7 @@ class CarParking{
             return response;
         }
 
+		/*Method for getting the slot nos on which the cars with drivers of given ages are parked*/
         vector<int> slot_no_for_driver_age(int driver_age){
             vector<int>ages;
             for(int i = 0; i < driverAge_Car[driver_age].size(); i++){
@@ -99,6 +118,7 @@ class CarParking{
             return ages;
         }
 
+		/*Method for getting the slot no of the car with the given car_registration_no*/
         int slot_no_for_car_with_no(string car_no){
             map<string , Car>::iterator it = regNo_Car.find(car_no);
             if(it == regNo_Car.end()){
@@ -108,6 +128,7 @@ class CarParking{
             return slot_no_for_car;
         }
 
+		/*Method for getting the car_registration_no of the cars having drivers of the given age*/
         vector<string> vehicle_no_for_car_with_driver_age(int driver_age){
             vector<string>vehicle_nos;
             map<int , vector<Car> >::iterator it = driverAge_Car.find(driver_age);
@@ -122,6 +143,7 @@ class CarParking{
             return vehicle_nos;
         }
 
+		/*Method called when a car is leaving the parking area*/
         string leave(int slot_no){
             string response;
             if(alloted_slots[slot_no] == false){
