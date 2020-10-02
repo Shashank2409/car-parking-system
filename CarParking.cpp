@@ -8,6 +8,7 @@ class Car{
     private:
         string car_no;
         int driver_age , parking_slot_no;
+        
     public:
         Car(string car_no , int driver_age , int parking_slot_no){
             this->car_no = car_no;
@@ -136,8 +137,8 @@ class CarParking{
                 regNo_Car.erase(car.get_car_no());
                 
                 map<int , vector<Car> >::iterator it_map = driverAge_Car.find(driver_age);
-//                vector<Car>::iterator it = find((it_map->second).begin() , (it_map->second).end() , car);
 				vector<Car>::iterator it_vector = (it_map->second).begin();
+				
                 for(; it_vector != (it_map->second).end(); it_vector++){
                 	if((*it_vector).get_car_no() == car.get_car_no()){
                 		(it_map->second).erase(it_vector);
@@ -145,7 +146,6 @@ class CarParking{
 					}
 				}
                 
-//                driverAge_Car[car.get_driver_age()].erase(it);
                 available_slots.push(slot_no);
 
                 string slot_no_string = int_to_string(slot_no), driver_age_string = int_to_string(driver_age), car_no_string = car.get_car_no();
@@ -166,7 +166,6 @@ int main(){
     CarParking parking_area;
 
     while(getline(in , input_line)){
-//        cout<<input_line<<endl;
         stringstream words(input_line);
         string command;
         words>>command;
