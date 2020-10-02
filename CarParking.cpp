@@ -100,9 +100,9 @@ class CarParking{
                 alloted_slots[alloted_slot_no] = true;
 
                 Car car(car_no , driver_age , alloted_slot_no);
-                regNo_Car.insert({car_no , car});
+                regNo_Car.insert(make_pair(car_no , car));
                 driverAge_Car[driver_age].push_back(car);
-                slotNo_Car.insert({alloted_slot_no , car});
+                slotNo_Car.insert(make_pair(alloted_slot_no , car));
 
                 string slot_no_string = int_to_string(alloted_slot_no);
                 response = "Car with vehicle registration number \"" + car_no + "\" has been parked at slot number " + slot_no_string + "\n";
