@@ -101,6 +101,28 @@ class CarParking{
             return vehicle_nos;
         }
 
+        string leave(int slot_no){
+            string response;
+            if(alloted_slots[slot_no] == false){
+                response = "The slot is already empty\n";
+            }
+            else{
+                alloted_slots[slot_no] = false;
+                Car car = slotNo_Car[slot_no];
+                slotNo_Car.erase(slot_no);
+                regNo_Car.erase(car->car_no);
+                driverAge_Car[car->driver_age].erase(car);
+                available_slots.push(slot_no);
+
+                stringstream age_to_string(driver_age) , slotNo_to_string(slot_no);
+                string slot_no_string , driver_age_string;
+                slotNo_to_string>>slot_no_string;
+                age_to_string>>driver_age_string;
+                response = "Slot number " + slot_no_string + " vacated, the car with vehicle registration number \"" + car->car_no +"\"left the space, the driver of the car was of age " + driver_age_string + "\n";
+            }
+            return response;
+        }
+
 };
 
 int main(){
@@ -156,8 +178,8 @@ int main(){
         else if(command == "Leave"){
             int slot_no;
             words>>slot_no;
-            
-
+            string response = parking_area.leave(slot_no);
+            cout<<response;
         }
         else if("Vehicle_registration_number_for_driver_of_age"){
             int driver_age;
