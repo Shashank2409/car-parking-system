@@ -1,0 +1,36 @@
+LOCAL ENVIRONMENT FOR RUNNING "CarParking.cpp"
+
+As a part of the local environment setup, we need two most important software on our machine as mentioned below:
+
+1. Text Editor
+    For writing and reading a code, we need a text editor on our machine. It can be a text editor like Notepad with only basic functionalities or it can be an advanced text editor like Notepad++.
+    After writing the c++ code in the editor, we need to save the file with a ".cpp" extension.
+
+2. Compiler
+    Once we have completed writing the code, we need a compiler which can understand our code which is in high-level language and convert it to a low-level language.
+
+Integrated Development environment (IDE)
+    An IDE is a software application that provides comprehensive facilities to computer programmers for software development.
+    It usually consists of both the above components i.e., Text Editor and Compiler. 
+    
+    For installing an IDE on Macintosh :-
+        1. Download XCode IDE from https://developer.apple.com/xcode/ and install it.
+        2. Open https://github.com/Shashank2409/car-parking-system.git on your browser.
+        3. Click "Code" button and click "Download ZIP".
+        4. Extract the ZIP file on your local PC.
+        5. Open the "CarParking.cpp" file which is present in the "car-parking-system" with XCode.
+        6. Add your test case/input to the "input.txt" file present in the "car-parking-system" folder.
+        7. In XCode, go to Product menu and click on Run to run the cpp file.
+        8. The output will be displayed on the console. Also, the output will be saved in the "output.txt" file present in the "car-parking-system" folder.
+
+    For installing an IDE on Ubuntu :-
+        1. Download Dev-C++ IDE from https://sourceforge.net/projects/orwelldevcpp/ and install it.
+        2. Open https://github.com/Shashank2409/car-parking-system.git on your browser.
+        3. Click "Code" button and click "Download ZIP".
+        4. Extract the ZIP file on your local PC.
+        5. Open the "CarParking.cpp" file which is present in the "car-parking-system" with Dev-C++.
+        6. Add your test case/input to the "input.txt" file present in the "car-parking-system" folder.
+        7. In Dev-C++, go to Execute and click Compile & Run option to run the cpp file.
+        8. The output will be displayed on the console. Also, the output will be saved in the "output.txt" file present in the "car-parking-system" folder.
+
+NOTE :- The "CarParking.cpp" file uses different Standard Template Libraries(STLs) like Priority Queue, Map and Vector. So prefer using the latest compiler version to avoid compilation errors.
