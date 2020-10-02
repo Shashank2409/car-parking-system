@@ -240,7 +240,7 @@ int main(){
                 out << slot_no_for_car << "\n";
             }
         }
-
+ 
         /*Block called when a car is leaving*/
         else if(command == "Leave"){
             int slot_no;
