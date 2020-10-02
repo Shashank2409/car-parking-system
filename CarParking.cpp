@@ -1,4 +1,12 @@
-#include<bits/stdc++.h>
+#include<iostream>
+#include<string>
+#include<map>
+#include<vector>
+#include<queue>
+#include<iterator>
+#include <fstream>
+#include <sstream>
+
 using namespace std;
 
 /*Path for the input and output files*/
