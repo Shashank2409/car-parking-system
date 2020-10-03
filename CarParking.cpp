@@ -265,7 +265,14 @@ int main(){
         else if(command == "Leave"){
             int slot_no;
             words >> slot_no;
-            string response = parking_area.leave(slot_no);
+            string response;
+            if(slot_no > parking_area.get_slots()){
+                response = "Slot no does not exist in out parking lot\n";
+            }
+            else{
+                response = parking_area.leave(slot_no);
+            }
+            
             cout << response;
             out << response;
         }
